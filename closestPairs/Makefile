@@ -1,8 +1,8 @@
-SOURCE  = main.cpp findclosestpair.cpp
+SOURCE  = main.cpp findclosestpair.cpp 
 
 TESTDIR = testdir
 
-TESTSRC = testMain.cpp 
+TESTSRC = testMain.cpp testfindclosestpair.cpp findclosestpair.cpp
 
 TESTOBJS=$(TESTDIR)/$(TESTSRC:.cpp=.o)
 
