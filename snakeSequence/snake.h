@@ -2,7 +2,6 @@
 #define SNAKE_CPP
 #include <iostream>
 #include <list>
-#include <stdio.h>
 
 using namespace std; 
 
@@ -14,12 +13,9 @@ struct Point
     int x, y; 
 }; 
 
-class SnakeSequence
+class SnakeFloor
 {
-    private: 
-        int lookup[ROWSIZE][COLSIZE] = {0}; 
-        list<Point> path;
-        int maxLen = 0, maxRow = 0, maxCol = 0;
+    private:
         int mat[ROWSIZE][COLSIZE] = 
         { 
             {9, 6, 5, 2}, 
@@ -27,6 +23,20 @@ class SnakeSequence
             {7, 3, 1, 6}, 
             {1, 1, 1, 7}, 
         }; 
+    public:
+        bool canStepLeft(int row, int col);
+        bool canStepAbove(int row, int col);
+        int getLocation(int row, int col);
+
+};
+
+class SnakeSequence
+{
+    private: 
+        int lookup[ROWSIZE][COLSIZE] = {0}; 
+        list<Point> path;
+        int maxLen = 0, maxRow = 0, maxCol = 0;
+        SnakeFloor snakefloor;
 
     public:
         SnakeSequence();

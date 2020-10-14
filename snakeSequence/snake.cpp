@@ -3,6 +3,7 @@
 SnakeSequence::SnakeSequence()
 {
     findSnakeSequence();
+    findPath(); 
     output();
 } 
 
@@ -44,55 +45,69 @@ bool SnakeSequence::checkCol()
 
 void SnakeSequence::findSnakeSequence()
 {
-    for (int i = 0; i < ROWSIZE; i++) 
+    for (int row = 0; row < ROWSIZE; row++) 
     { 
-        for (int j = 0; j < COLSIZE; j++) 
+        for (int col = 0; col < COLSIZE; col++) 
         { 
-            if (i || j) // do except for (0, 0) cell 
+            if (row || col) // do except for (0, 0) cell 
             { 
-                lookAbove(i,j);
-                lookLeft(i,j); 
+                lookAbove(row,col);
+                lookLeft(row,col); 
             } 
         } 
     } 
 } 
 
-void SnakeSequence::lookAbove(int i, int j)
+
+void SnakeSequence::lookAbove(int row, int col)
 {
-    if (i > 0 && abs(mat[i - 1][j] - mat[i][j]) == 1) 
+    if (snakefloor.canStepAbove(row,col)) 
     { 
-        lookup[i][j] = max(lookup[i][j], lookup[i - 1][j] + 1); 
-        if (maxLen < lookup[i][j]) 
+        lookup[row][col] = max(lookup[row][col], lookup[row - 1][col] + 1); 
+        if (maxLen < lookup[row][col]) 
         { 
-            maxLen = lookup[i][j]; 
-            maxRow = i, maxCol = j; 
+            maxLen = lookup[row][col]; 
+            maxRow = row, maxCol = col; 
         } 
     } 
 }
 
-void SnakeSequence::lookLeft(int i, int j)
+void SnakeSequence::lookLeft(int row, int col)
 {
-    if (j > 0 && abs(mat[i][j - 1] - mat[i][j]) == 1) 
+    if (snakefloor.canStepLeft(row,col)) 
     { 
-        lookup[i][j] = max(lookup[i][j], lookup[i][j - 1] + 1); 
-        if (maxLen < lookup[i][j]) 
+        lookup[row][col] = max(lookup[row][col], lookup[row][col - 1] + 1); 
+        if (maxLen < lookup[row][col]) 
         { 
-            maxLen = lookup[i][j]; 
-            maxRow = i, maxCol = j; 
+            maxLen = lookup[row][col]; 
+            maxRow = row, maxCol = col; 
         } 
     } 
-}
-
+} 
 
 void SnakeSequence::output()
 { 
     cout << "Maximum length of Snake sequence is: "
          << maxLen << endl; 
 
-    findPath(); 
-
     cout << "Snake sequence is:"; 
     for (auto it = path.begin(); it != path.end(); it++) 
-        cout << endl << mat[it->x][it->y] << " ("
+        cout << endl << snakefloor.getLocation(it->x, it->y) << " ("
              << it->x << ", " << it->y << ")" ; 
+    cout << "\n";
+}
+
+bool SnakeFloor::canStepLeft(int row, int col)
+{
+    return (abs(mat[row][col-1] - mat[row][col]) == 1 && col > 0);
+}
+
+bool SnakeFloor::canStepAbove(int row, int col)
+{
+    return (abs(mat[row-1][col] - mat[row][col]) == 1 && row > 0);
+}
+
+int SnakeFloor::getLocation(int row, int col)
+{
+    return mat[row][col];
 }
