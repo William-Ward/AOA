@@ -1,6 +1,13 @@
 #include "findclosestpair.h"
 #include "testdir/catch.hpp"
 
+TEST_CASE("getClosestPair")
+{
+    vector<Point> points = {{2, 3}, {12, 30}, {40, 50}, {5, 1}, {12, 10}, {3, 4}};
+    FindClosestPair find;
+    CHECK(find.getClosestPair(points) > 0);
+}
+
 TEST_CASE("getMinAcrossSplit")
 {
     vector<Point> left  = {{1,1},{2, 3}, {12, 30}};

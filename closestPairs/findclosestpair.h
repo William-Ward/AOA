@@ -4,7 +4,6 @@
 #include <math.h>
 #include <vector>
 #include <algorithm>
-#include "point.h"
 
 using namespace std;
 
